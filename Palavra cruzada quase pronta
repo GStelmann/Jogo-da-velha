@@ -7,17 +7,17 @@ char m[15][15]; //matriz de referencia
 char Mjogo[15][15]; //matriz de jogo
 
 struct coord {//onde é armazenada toda a informação sobre as respostas colocadas
-    char resposta[50];
-    char dica[100];
-    int orientacao;
-    int lugar1;
-    int lugar2;
-    int acerto;
+    char resposta[50];//palavra escolhida
+    char dica[100];//dica da resposta
+    int orientacao;//1 é vertical, 2 é horizontal
+    int lugar1;//linha inicial da matriz
+    int lugar2;//coluna inicial da matriz
+    int acerto;//vê se a palavra já foi acertada
 }info[50];
 
 void impdica(int k){//imprime as dicas, inicio e fim
     int i=1,lf,cf;
-    while(i<=k){
+    while(i<=k){//imprime cada uma das dicas e informações sobre as palavras de todas elas
         if(info[i].acerto==0){
             if(info[i].orientacao==1){
                 lf=info[i].lugar1 + strlen(info[i].resposta)-1;
@@ -33,7 +33,7 @@ void impdica(int k){//imprime as dicas, inicio e fim
         i++;
     }
 }
-int compara(){
+int compara(){//compara as duas matrizes, se forem iguais, o jogador venceu
     int c=0,b=0,p=1;
     while(b<15){
         while(c<15){
@@ -71,7 +71,7 @@ void impressora(char mat[15][15]){ //imprime a matriz
     }
 }
 
-void preencher_matriz(int n){
+void preencher_matriz(int n){//preenche a matriz com as palavras escolhidas
 
     int i, j, k, l, validade;
 
@@ -101,7 +101,7 @@ void preencher_matriz(int n){
         scanf("%d", &info[n].lugar1);
         scanf("%d", &info[n].lugar2);
         if(info[n].orientacao == 1){
-            if((info[n].lugar1+strlen(info[n].resposta)>15)||(info[n].lugar1>14)||(info[n].lugar1<0)||(info[n].lugar2>14)||(info[n].lugar2<0)){
+            if((info[n].lugar1+strlen(info[n].resposta)>15)||(info[n].lugar1>14)||(info[n].lugar1<0)||(info[n].lugar2>14)||(info[n].lugar2<0)){//impede jogadas fora da matriz
                 validade=0;
                 printf("insira valores validos\n");
             }
@@ -141,7 +141,7 @@ void preencher_matriz(int n){
                     j = info[n].lugar1;
                     k = info[n].lugar2;
 
-                    for(i = 0; i < strlen(info[n].resposta); i++){
+                    for(i = 0; i < strlen(info[n].resposta); i++){//imprime a resposta certa na matriz do jogo
 
                         l = k + i;
 
@@ -240,7 +240,7 @@ void jogo(int k){ //Funcao em que ocorre a troca dos espacos com 0 pelas palavra
     printf("determine a palavra desejada\n");
     scanf("%s", p);
 
-    if(strcmp(p,info[c].resposta)==0){
+    if(strcmp(p,info[c].resposta)==0){//verifica se o chte foi igual a resposta
         while(s<strlen(info[c].resposta)){
             if(info[c].orientacao==1){
                 Mjogo[info[c].lugar1+s][info[c].lugar2]=info[c].resposta[s];
@@ -251,7 +251,7 @@ void jogo(int k){ //Funcao em que ocorre a troca dos espacos com 0 pelas palavra
                 s++;
             }
         }
-        info[c].acerto=1;
+        info[c].acerto=1;//acerto garante que ela vai ser errado
     }
     else{
         printf("Resposta errada\n");
@@ -303,7 +303,7 @@ int main(){
 
         v=compara();
     }
-    if(v==1){
+    if(v==1){//garante que o jogador foi vencedor
         printf("\nParabens, voce venceu!!!!");
         return 0;
     }
